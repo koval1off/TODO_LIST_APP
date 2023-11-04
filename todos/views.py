@@ -1,6 +1,7 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .models import Task
+from .forms import TaskForm
 
 
 class TaskListView(ListView):
@@ -10,5 +11,6 @@ class TaskListView(ListView):
 
 class TaskCreateView(CreateView):
     model = Task
-    template_name = "task_create.html"
-    fields = ['title', 'discription', 'completed']
+    form_class = TaskForm
+    template_name = "task_list.html"
+    success_url = '/'
