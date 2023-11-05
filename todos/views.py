@@ -1,4 +1,5 @@
-from django.shortcuts import redirect, render
+from typing import Any
+from django.shortcuts import redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .models import Task
@@ -14,7 +15,12 @@ class TaskListView(ListView):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('task_list')
+        return redirect('tasks:task_list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TaskForm()
+        return context
 
 
 class TaskDetailView(DeleteView):
