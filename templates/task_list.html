@@ -1,21 +1,7 @@
 {% extends "_base.html" %}
-{% load static %}
-
-{% block title %}TODO{% endblock %}
 
 {% block content %}
-    {% for task in tasks %}
-        <li>{{ task.title }}</li>
-    {% empty %}
-        <li>Empty List</li>
-    {% endfor%}
-
-    <form id="task-form", method="post", action="{% url 'task-create' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">ADD+</button>
-    </form>
 
 {% endblock content %}
 
-<script src="{% static 'js/custom.js' %}"></script>
+
