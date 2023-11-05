@@ -3,7 +3,11 @@
 {% block content %}
     <h1>Task: {{ task.title }}</h1>
     <p>Description: {{ task.description }}</p>
-    <p>Status: {% if task.is_completed %}(done){% endif %}</p>
+    {% if task.completed == True %}
+        <p>Status: Done</p>
+    {% else %}
+        <p>Status: In process</p>
+    {% endif %}
     <a href="{% url 'tasks:task_update' task.pk %}">Update Task</a>
     <a href="{% url 'tasks:task_delete' task.pk %}">Delete Task</a>
     <a href="{% url 'tasks:task_list' %}">Back to Tasks</a>

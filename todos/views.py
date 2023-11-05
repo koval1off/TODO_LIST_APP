@@ -1,9 +1,9 @@
-from typing import Any
+from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, UpdateView, DeleteView
 
 from .models import Task
-from .forms import TaskForm
+from .forms import CreateTaskForm, UpdateTaskForm
 
 
 class TaskListView(ListView):
@@ -11,15 +11,16 @@ class TaskListView(ListView):
     template_name = "task_list.html"
     context_object_name = "tasks"
 
-    def post(self, request, *args, **kwargs):
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            form.save()
+    def post(self, request):
+        if request.method == 'POST':
+            form = CreateTaskForm(request.POST)
+            if form.is_valid():
+                form.save()
         return redirect('tasks:task_list')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = TaskForm()
+        context['create_form'] = CreateTaskForm()
         return context
 
 
@@ -29,21 +30,21 @@ class TaskDetailView(DeleteView):
     context_object_name = "task"
 
 
-class TaskCreateView(CreateView):
-    model = Task
-    form_class = TaskForm
-    template_name = "task_form.html"
-    success_url = '/'
-
-
 class TaskUpdateView(UpdateView):
     model = Task
-    form_class = TaskForm
-    template_name = "task_form.html"
+    form_class = UpdateTaskForm
+    template_name = "task_update.html"
     success_url = '/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+    def get_object(self, queryset=None):
+        return Task.objects.get(pk=self.kwargs['pk'])
 
 
 class TaskDeleteView(DeleteView):
     model = Task
     template_name = "task_confirm_delete.html"
-    success_url = '/'
+    success_url = reverse_lazy('tasks:task_list')

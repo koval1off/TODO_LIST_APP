@@ -14,7 +14,7 @@
 
     <h2>Add new Task</h2>
     <form method="post" action="{% url 'tasks:task_list' %}">{% csrf_token %}
-        {{ form.as_p }}
+        {{ create_form.as_p }}
         <button type="submit">ADD</button>
     </form>
 
