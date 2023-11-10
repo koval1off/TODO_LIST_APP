@@ -45,9 +45,11 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'rest_framework',
 
     'todos.apps.TodosConfig',
     'accounts.apps.AccountsConfig',
+    'apis.apps.ApisConfig',
 ]
 
 MIDDLEWARE = [
