@@ -15,7 +15,9 @@ class TaskListView(ListView):
         if request.method == 'POST':
             form = CreateTaskForm(request.POST)
             if form.is_valid():
-                form.save()
+                task = form.save(commit=False)
+                task.user = request.user
+                task.save()
         return redirect('tasks:task_list')
     
     def get_context_data(self, **kwargs):
