@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic import ListView, UpdateView, DeleteView
@@ -8,8 +10,11 @@ from .forms import CreateTaskForm, UpdateTaskForm
 
 class TaskListView(ListView):
     model = Task
-    template_name = "task_list.html"
+    template_name = "todos/task_list.html"
     context_object_name = "tasks"
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
     def post(self, request):
         if request.method == 'POST':
@@ -28,15 +33,21 @@ class TaskListView(ListView):
 
 class TaskDetailView(DeleteView):
     model = Task
-    template_name = "task_detail.html"
+    template_name = "todos/task_detail.html"
     context_object_name = "task"
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
 
 class TaskUpdateView(UpdateView):
     model = Task
     form_class = UpdateTaskForm
-    template_name = "task_update.html"
-    success_url = '/'
+    template_name = "todos/task_update.html"
+    success_url = '/task'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -48,6 +59,6 @@ class TaskUpdateView(UpdateView):
 
 class TaskDeleteView(DeleteView):
     model = Task
-    template_name = "task_confirm_delete.html"
+    template_name = "todos/task_confirm_delete.html"
     success_url = reverse_lazy('tasks:task_list')
 
