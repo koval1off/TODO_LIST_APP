@@ -1,10 +1,11 @@
 {% extends "_base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
     <h1>Are you sure you wanna delete task '{{ task.title }}'?</h1>
     <form method="post">{% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <button type="submit">Confirm</button>
     </form>
 
