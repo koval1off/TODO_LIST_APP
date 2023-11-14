@@ -6,9 +6,8 @@
     <h1>Are you sure you wanna delete task '{{ task.title }}'?</h1>
     <form method="post">{% csrf_token %}
         {{ form|crispy }}
-        <button type="submit">Confirm</button>
+        <button class="btn btn-danger" type="submit">Confirm</button>
+        <button class="btn btn-secondary" href="{% url 'tasks:task_list' %}">Back to Tasks</button>
     </form>
-
-    <a href="{% url 'tasks:task_list' %}">Back to Tasks</a>
 
 {% endblock %}

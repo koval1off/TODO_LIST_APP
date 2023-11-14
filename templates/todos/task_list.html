@@ -7,16 +7,17 @@
     <ul>
         {% for task in tasks %}
             <li>
-                <a href="{% url 'tasks:task_detail' task.pk %}">{{ task.title }}</a>
+                <a class="btn btn-light" href="{% url 'tasks:task_detail' task.pk %}" style="width: 250px;">{{ task.title }}</a>
                 {% if task.is_completed %}(Done){% endif %}
             </li>    
         {% endfor %} 
     </ul>
 
-    <h2>Add new Task</h2>
+    <hr style="color: black; width: 7%; border: none; border-top: 5px dotted;">
+
     <form method="post" action="{% url 'tasks:task_list' %}">{% csrf_token %}
         {{ create_form|crispy }}
-        <button type="submit">ADD</button>
+        <button class="btn btn-success" type="submit">ADD</button>
     </form>
 
 {% endblock content %}

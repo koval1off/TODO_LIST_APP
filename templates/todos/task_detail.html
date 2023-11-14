@@ -8,8 +8,11 @@
     {% else %}
         <p>Status: In process</p>
     {% endif %}
-    <a href="{% url 'tasks:task_update' task.pk %}">Update Task</a>
-    <a href="{% url 'tasks:task_delete' task.pk %}">Delete Task</a>
-    <a href="{% url 'tasks:task_list' %}">Back to Tasks</a>
+    <div style="margin: 5px;">
+        <a class="btn btn-secondary" href="{% url 'tasks:task_update' task.pk %}">Update Task</a>
+        <a class="btn btn-secondary" href="{% url 'tasks:task_delete' task.pk %}">Delete Task</a>
+        <a class="btn btn-secondary" href="{% url 'tasks:task_list' %}">Back to Tasks</a>
+    </div>
+    
 
 {% endblock %}
