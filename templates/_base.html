@@ -21,17 +21,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'about' %}">About</a>
               </li>
+
               {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'tasks:task_list' %}">Tasks</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">{{ user.username }}</a>
-              </li>
-              <li class="nav-item">
-                <!-- <button class="btn btn-danger" type="submit">Logout</button> -->
-                <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
-              </li>
+              <div class="dropdown">
+                <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ user.username }}
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+              </div>
+
               {% else %}
               <li class="nav-item">
                 <a class="btn btn-success me-2" href="{% url 'login' %}">Login</a>

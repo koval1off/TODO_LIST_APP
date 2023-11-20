@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <h1>List of Tasks</h1>
+    <h3>Task List:</h3>
     <ul>
         {% for task in tasks %}
             <li>
@@ -16,8 +16,11 @@
     <hr style="color: black; width: 7%; border: none; border-top: 5px dotted;">
 
     <form method="post" action="{% url 'tasks:task_list' %}">{% csrf_token %}
-        {{ create_form|crispy }}
-        <button class="btn btn-success" type="submit">ADD</button>
+        <div class="d-flex justify-content-center align-items-center">
+            {{ create_form.title }}
+            <button class="btn btn-success" type="submit" style="margin: 5px;">ADD</button>
+        </div>
+        
     </form>
 
 {% endblock content %}
