@@ -11,12 +11,11 @@ class CustomUserSignupView(allauth_views.SignupView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        if self.user:
-            user = self.user
-            user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
-            login(self.request, user)
+        user = self.user 
+        user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
+        login(self.request, user)
         return response
-    
+
     def get_success_url(self):
         return reverse_lazy("login")
 
@@ -33,3 +32,4 @@ class CustomChangePasswordView(PasswordChangeView):
 
 class CustomChangePasswordDoneView(PasswordChangeDoneView):
     template_name = "registration/password_change_done.html"
+
