@@ -1,27 +1,41 @@
 {% extends "_base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <h3>Task List:</h3>
-    <ul>
-        {% for task in tasks %}
+    <h3>Tasks</h3>
+    {% for task in tasks %}
+        <ul>
             <li>
+                <input type="checkbox" class="task-checkbox" data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
                 <a class="btn btn-light" href="{% url 'tasks:task_detail' task.pk %}" style="width: 250px;">{{ task.title }}</a>
-                {% if task.is_completed %}(Done){% endif %}
-            </li>    
-        {% endfor %} 
-    </ul>
+            </li>
+        </ul>
+    {% endfor %}
 
-    <hr style="color: black; width: 7%; border: none; border-top: 5px dotted;">
+    <hr>
+
+    <h3>Completed Tasks</h3>
+    {% for task in completed_tasks %}
+        <ul>
+            <li>
+                <input type="checkbox" class="task-checkbox" data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
+                <a class="btn btn-light completed-task-btn" href="{% url 'tasks:task_detail' task.pk %}" style="width: 250px;">{{ task.title }}</a>
+            </li>
+        </ul>
+    {% endfor %}
 
     <form method="post" action="{% url 'tasks:task_list' %}">{% csrf_token %}
         <div class="d-flex justify-content-center align-items-center">
             {{ create_form.title }}
-            <button class="btn btn-success" type="submit" style="margin: 5px;">ADD</button>
+            <button class="btn btn-success task-add-btn" type="submit" style="margin: 5px;">ADD</button>
         </div>
         
     </form>
+
+<script src="{% static 'js/task_list.js' %}"></script>
 
 {% endblock content %}
 
