@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     'pages.apps.PagesConfig',
     'todos.apps.TodosConfig',
+    'groups.apps.GroupsConfig',
     'accounts.apps.AccountsConfig',
     'apis.apps.ApisConfig',
 ]

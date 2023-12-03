@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from groups.models import TaskGroup
 
 
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(TaskGroup, on_delete=models.CASCADE, related_name='tasks', null=True, default=None)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     completed = models.BooleanField(default=False, null=True)

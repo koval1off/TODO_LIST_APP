@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
     path('task/', include('todos.urls')),
+    path('group/', include('groups.urls')),
     path('accounts/', include("django.contrib.auth.urls")),
     path('accounts/', include('allauth.urls')),
     path('custom_accounts/', include('accounts.urls')),

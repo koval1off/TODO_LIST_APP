@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
     <h3>Tasks</h3>
-    {% for task in tasks %}
+    {% for task in incompleted_tasks %}
         <ul>
             <li>
                 <input type="checkbox" class="task-checkbox" data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
@@ -26,13 +26,17 @@
             </li>
         </ul>
     {% endfor %}
-
-    <form method="post" action="{% url 'tasks:task_list' %}">{% csrf_token %}
+    
+    {% if group_id %}
+        <form method="post" action="{% url 'tasks:task_list_by_group' group_id %}">
+    {% else %}
+        <form method="post" action="{% url 'tasks:task_list' %}">
+    {% endif %}
+        {% csrf_token %}
         <div class="d-flex justify-content-center align-items-center">
             {{ create_form.title }}
             <button class="btn btn-success task-add-btn" type="submit" style="margin: 5px;">ADD</button>
         </div>
-        
     </form>
 
 <script src="{% static 'js/task_list.js' %}"></script>
