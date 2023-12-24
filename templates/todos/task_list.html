@@ -28,7 +28,7 @@
     {% endfor %}
     
     {% if group_id %}
-        <form method="post" action="{% url 'tasks:task_list_by_group' group_id %}">
+        <form method="post" action="{% url 'tasks:group_task_list' group_id %}">
     {% else %}
         <form method="post" action="{% url 'tasks:task_list' %}">
     {% endif %}

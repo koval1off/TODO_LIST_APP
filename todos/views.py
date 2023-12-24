@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 from django.views.generic import ListView, UpdateView, DeleteView
@@ -10,6 +12,42 @@ from groups.models import TaskGroup
 from .forms import CreateTaskForm, UpdateTaskForm
 
 
+class GroupTaskListView(ListView):
+    model = Task
+    template_name = "todos/task_list.html"
+    context_object_name = "group_tasks"
+    form_class = CreateTaskForm
+
+    def get_queryset(self):
+        user = self.request.user
+        group_id = self.kwargs.get("group_id")
+        return Task.objects.filter(group_id=group_id, user=user)
+    
+    def post(self, request, *args, **kwargs):
+        group_id = self.kwargs.get("group_id")
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = request.user
+            task.group = get_object_or_404(TaskGroup, id=group_id)
+            task.save()
+        
+        task_ids = request.POST.getlist("task_ids")
+        if task_ids:
+            Task.objects.filter(id__in=task_ids, user=request.user).update(completed=True)
+        
+        return redirect(reverse("tasks:group_task_list", args=[group_id]))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        group_id = self.kwargs.get("group_id")
+        context["incompleted_tasks"] = self.get_queryset().filter(completed=False)
+        context["completed_tasks"] = self.get_queryset().filter(completed=True)
+        context["create_form"] = self.form_class(initial={'group': group_id})
+        context["group_id"] = group_id
+        return context
+    
+
 class TaskListView(ListView):
     model = Task
     template_name = "todos/task_list.html"
@@ -18,42 +56,26 @@ class TaskListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        group_id = self.kwargs.get('group_id')
-        if group_id:
-            return Task.objects.filter(group_id=group_id, user=user)
         return Task.objects.filter(user=user)
 
     def post(self, request, *args, **kwargs):
-        group_id = self.kwargs.get('group_id')
         form = self.form_class(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             task.user = request.user
-            if group_id:
-                task.group = get_object_or_404(TaskGroup, id=group_id)
             task.save()
 
         task_ids = request.POST.getlist('task_ids')
         if task_ids:
             Task.objects.filter(id__in=task_ids, user=request.user).update(completed=True)
 
-        if group_id:
-            return redirect(reverse('tasks:task_list_by_group', args=[group_id]))
         return redirect(reverse('tasks:task_list'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        group_id = self.kwargs.get('group_id')
-
-        if group_id:
-            context['incompleted_tasks'] = self.get_queryset().filter(completed=False)
-            context['completed_tasks'] = self.get_queryset().filter(completed=True)
-        else:
-            context['incompleted_tasks'] = Task.objects.filter(user=self.request.user, completed=False)
-            context['completed_tasks'] = Task.objects.filter(user=self.request.user, completed=True)
-
-        context['create_form'] = self.form_class(initial={'group': group_id}) if group_id else self.form_class()
-        context['group_id'] = group_id
+        context['incompleted_tasks'] = Task.objects.filter(completed=False)
+        context['completed_tasks'] = Task.objects.filter(completed=True)
+        context['create_form'] = self.form_class()
         return context
 
 

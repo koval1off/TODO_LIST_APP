@@ -4,6 +4,6 @@ from .models import Task
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'completed')
+    list_display = ("id", 'title', 'description', 'completed')
     list_filter = ('completed',)
  

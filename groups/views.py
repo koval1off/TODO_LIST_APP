@@ -18,12 +18,11 @@ class GroupListView(ListView):
         return context
     
     def post(self, request, *args, **kwargs):
-        if request.method == "POST":
-            form = CreateGroupForm(request.POST)
-            if form.is_valid():
-                new_group = form.save(commit=False)
-                new_group.user = request.user
-                new_group.save()
+        form = CreateGroupForm(request.POST)
+        if form.is_valid():
+            new_group = form.save(commit=False)
+            new_group.user = request.user
+            new_group.save()
         return redirect("groups:group_list")
 
     
