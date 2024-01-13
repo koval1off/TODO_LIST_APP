@@ -14,7 +14,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-flex justify-content-center align-items-center">
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
               </li>
@@ -29,21 +29,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'groups:group_list' %}">Groups</a>
               </li>
-              <div class="dropdown">
+              <div class="dropdown mx-auto">
                 <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {{ user.username }}
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
-                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                  <li class="text-center"><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
+                  <li class="text-center"><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 </ul>
               </div>
 
               {% else %}
-              <li class="nav-item">
-                <a class="btn btn-success me-2" href="{% url 'login' %}">Login</a>
+              <li class="nav-item m-1">
+                <a class="btn btn-success" href="{% url 'login' %}">Login</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item m-1">
                 <a class="btn btn-primary" href="{% url 'signup' %}">Signup</a>
               </li>
               {% endif %}

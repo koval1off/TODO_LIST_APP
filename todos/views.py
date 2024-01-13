@@ -73,8 +73,8 @@ class TaskListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['incompleted_tasks'] = Task.objects.filter(completed=False)
-        context['completed_tasks'] = Task.objects.filter(completed=True)
+        context['incompleted_tasks'] = Task.objects.filter(user=self.request.user, completed=False)
+        context['completed_tasks'] = Task.objects.filter(user=self.request.user, completed=True)
         context['create_form'] = self.form_class()
         return context
 

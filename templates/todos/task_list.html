@@ -21,7 +21,7 @@
     {% for task in completed_tasks %}
         <ul>
             <li>
-                <input type="checkbox" class="task-checkbox" data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
+                <input type="checkbox" class="task-checkbox" checked data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
                 <a class="btn btn-light completed-task-btn" href="{% url 'tasks:task_detail' task.pk %}" style="width: 250px;">{{ task.title }}</a>
             </li>
         </ul>
