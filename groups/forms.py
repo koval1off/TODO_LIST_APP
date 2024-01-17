@@ -3,10 +3,12 @@ from .models import TaskGroup
 
 
 class CreateGroupForm(forms.ModelForm):
+    name = forms.CharField(
+        label='',
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Add new group..'})
+    )
+
     class Meta:
         model = TaskGroup
         fields = ['name']
-        widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'my text here'}),
-        }
-    name = forms.CharField(label='', required=True)

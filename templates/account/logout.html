@@ -6,7 +6,7 @@
   {% translate "Log Out" %}
 {% endblock head_title %}
 {% block inner %}
-  <h1>{% translate "Log Out" %}</h1>
+  <h3>{% translate "Log Out" %}</h3>
   <p>{% translate "Are you sure you want to sign out?" %}</p>
   <form method="post" action="{% url 'account_logout' %}">
     {% csrf_token %}

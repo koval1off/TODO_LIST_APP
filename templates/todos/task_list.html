@@ -5,6 +5,15 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
+    {% if group_id %}
+        <a class="icon-link icon-link-hover link-dark" href="{% url 'groups:group_list' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+            Back to Groups
+        </a>
+    {% endif %}
+
     <h3>Tasks</h3>
     {% for task in incompleted_tasks %}
         <ul>
@@ -14,10 +23,11 @@
             </li>
         </ul>
     {% endfor %}
+    
+    {% if completed_tasks %}
+        <hr>
+    {% endif %}
 
-    <hr>
-
-    <h3>Completed Tasks</h3>
     {% for task in completed_tasks %}
         <ul>
             <li>
@@ -26,7 +36,8 @@
             </li>
         </ul>
     {% endfor %}
-    
+
+    <div class="task-creation-form">
     {% if group_id %}
         <form method="post" action="{% url 'tasks:group_task_list' group_id %}">
     {% else %}
@@ -38,8 +49,9 @@
             <button class="btn btn-success task-add-btn" type="submit" style="margin: 5px;">ADD</button>
         </div>
     </form>
+    </div>
 
-<script src="{% static 'js/task_list.js' %}"></script>
+    <script src="{% static 'js/task_list.js' %}"></script>
 
 {% endblock content %}
 

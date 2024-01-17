@@ -1,8 +1,18 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <h1>Task: {{ task.title }}</h1>
-    <p>Description: {{ task.description }}</p>
+<div class="d-flex flex-column">
+    <a class="icon-link icon-link-hover link-dark" href="{% url 'tasks:task_list' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+        Back to Tasks
+    </a>
+
+    <h3>{{ task.title }}</h3>
+    {% if task.description %}
+        <p>Description: {{ task.description }}</p>
+    {% endif %}
     {% if task.completed == True %}
         <p>Status: Done</p>
     {% else %}
@@ -10,9 +20,8 @@
     {% endif %}
     <div style="margin: 5px;">
         <a class="btn btn-secondary" href="{% url 'tasks:task_update' task.pk %}">Update Task</a>
-        <a class="btn btn-secondary" href="{% url 'tasks:task_delete' task.pk %}">Delete Task</a>
-        <a class="btn btn-secondary" href="{% url 'tasks:task_list' %}">Back to Tasks</a>
+        <a class="btn btn-danger" href="{% url 'tasks:task_delete' task.pk %}">Delete Task</a>
     </div>
-    
+</div>
 
 {% endblock %}

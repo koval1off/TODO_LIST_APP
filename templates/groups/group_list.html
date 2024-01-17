@@ -3,18 +3,21 @@
 {% load static %}
 
 {% block content %}
-  <h2>Group List</h2>
-  <ul>
-    {% for group in groups %}
-      <li><a class="btn btn-light" href="{% url 'tasks:group_task_list' group.id %}" style="width: 250px;">{{ group.name }}</a></li>
-    {% endfor %}
-  </ul>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-  <h2>Create a New Group</h2>
-  <form method="post" action="{% url 'groups:group_list' %}">{% csrf_token %}
-    <div class="d-flex justify-content-center align-items-center">
-        {{ create_form.name }}
-        <button class="btn btn-success task-add-btn" type="submit" style="margin: 5px;">ADD</button>
-    </div>
-</form>
+  <h3>Group List</h3>
+    <ul>
+      {% for group in groups %}
+        <li><a class="btn btn-light" href="{% url 'tasks:group_task_list' group.id %}" style="width: 250px;">{{ group.name }}</a></li>
+      {% endfor %}
+    </ul>
+
+  <div class="group-creation-form">
+    <form method="post" action="{% url 'groups:group_list' %}">{% csrf_token %}
+      <div class="d-flex justify-content-center align-items-center">
+          {{ create_form.name }}
+          <button class="btn btn-success task-add-btn" type="submit" style="margin: 5px;">ADD</button>
+      </div>
+    </form>
+  </div>
 {% endblock %}

@@ -2,12 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+    <div class="d-flex flex-column align-items-center text-center">
+        <h3>Are you sure you wanna delete task '{{ task.title }}'?</h3> 
+        <div class="d-flex">  
+        <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-danger mx-2" type="submit">Confirm</button>
+        </form>
 
-    <h1>Are you sure you wanna delete task '{{ task.title }}'?</h1>
-    <form method="post">{% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-danger" type="submit">Confirm</button>
-        <button class="btn btn-secondary" href="{% url 'tasks:task_list' %}">Back to Tasks</button>
-    </form>
-
+        <a class="btn btn-secondary " href="{% url 'tasks:task_list' %}">Back to Tasks</a>
+    </div></div> 
 {% endblock %}

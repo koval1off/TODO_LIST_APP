@@ -24,3 +24,14 @@ hr {
     text-decoration: line-through;
     color: #333;
 }
+
+.task-creation-form, .group-creation-form {
+    position: fixed;
+    bottom: 50px;
+}
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
