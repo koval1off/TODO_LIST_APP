@@ -8,7 +8,7 @@
   <h3>Group List</h3>
     <ul>
       {% for group in groups %}
-        <li><a class="btn btn-light" href="{% url 'tasks:group_task_list' group.id %}" style="width: 250px;">{{ group.name }}</a></li>
+        <li><a class="btn btn-light" href="{% url 'groups:group_task_list' group.id %}" style="width: 250px;">{{ group.name }}</a></li>
       {% endfor %}
     </ul>
 

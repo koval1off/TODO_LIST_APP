@@ -12,3 +12,9 @@ class CreateGroupForm(forms.ModelForm):
     class Meta:
         model = TaskGroup
         fields = ['name']
+
+
+class UpdateGroupForm(forms.ModelForm):
+    class Meta:
+        model = TaskGroup
+        fields = ['name']

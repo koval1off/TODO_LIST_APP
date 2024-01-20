@@ -12,34 +12,37 @@
             </svg>
             Back to Groups
         </a>
+
+        <h3>{{ group.name }}</h3>
+    {% else %}
+        <h3>Tasks</h3>        
     {% endif %}
 
-    <h3>Tasks</h3>
-    {% for task in incompleted_tasks %}
-        <ul>
+    <ul>
+        {% for task in incompleted_tasks %}
             <li>
                 <input type="checkbox" class="task-checkbox" data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
                 <a class="btn btn-light" href="{% url 'tasks:task_detail' task.pk %}" style="width: 250px;">{{ task.title }}</a>
             </li>
-        </ul>
-    {% endfor %}
+        {% endfor %}    
+    </ul>
     
     {% if completed_tasks %}
         <hr>
     {% endif %}
-
-    {% for task in completed_tasks %}
-        <ul>
+    
+    <ul>    
+        {% for task in completed_tasks %}
             <li>
                 <input type="checkbox" class="task-checkbox" checked data-action-url="{% url 'tasks:toggle_task_completion' task.id %}">
                 <a class="btn btn-light completed-task-btn" href="{% url 'tasks:task_detail' task.pk %}" style="width: 250px;">{{ task.title }}</a>
             </li>
-        </ul>
-    {% endfor %}
-
+        {% endfor %}
+    </ul>
+    
     <div class="task-creation-form">
     {% if group_id %}
-        <form method="post" action="{% url 'tasks:group_task_list' group_id %}">
+        <form method="post" action="{% url 'groups:group_task_list' group_id %}">
     {% else %}
         <form method="post" action="{% url 'tasks:task_list' %}">
     {% endif %}
