@@ -1,3 +1,4 @@
+from typing import Any
 from django.views.generic import ListView, UpdateView, DeleteView
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -80,11 +81,30 @@ class GroupUpdateView(UpdateView):
         form.save()
         return super().form_valid(form)
     
-    def get_object(self):
-        return TaskGroup.objects.get(pk=self.kwargs['pk'])
+    def get_object(self, queryset=None):
+        group_id = self.kwargs.get('group_id')
+        return get_object_or_404(TaskGroup, id=group_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        group_id = self.kwargs.get('group_id')
+        context['group_id'] = group_id
+        return context
 
 
 class GroupDeteleView(DeleteView):
     model = TaskGroup
     template_name = "groups/group_confirm_delete.html"
     success_url = reverse_lazy("groups:group_list")
+
+    def get_object(self, queryset=None):
+        group_id = self.kwargs.get('group_id')
+        return get_object_or_404(TaskGroup, id=group_id)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        group_id = self.kwargs.get("group_id")
+        group = get_object_or_404(TaskGroup, id=group_id)
+        context['group_id'] = group_id
+        context['group'] = group
+        return context

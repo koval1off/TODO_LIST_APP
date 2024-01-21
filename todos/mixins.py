@@ -34,4 +34,4 @@ class TaskListViewMixin:
         return context
     
     def get_redirect_url(self):
-        raise NotImplementedError("Subclasses must impletent this method.")
+        raise NotImplementedError("Subclasses must impletement this method.")
