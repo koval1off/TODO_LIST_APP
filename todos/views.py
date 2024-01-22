@@ -2,7 +2,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView
 from django.http import JsonResponse
 from django.views import View
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from .models import Task
 from .forms import UpdateTaskForm
@@ -14,7 +14,7 @@ class TaskListView(TaskListViewMixin, ListView):
     
     def get_redirect_url(self):
         return reverse('tasks:task_list')
-
+    
 
 class ToggleTaskCompletionView(View):
     def post(self, request, task_id):
@@ -37,7 +37,6 @@ class TaskUpdateView(UpdateView):
     model = Task
     form_class = UpdateTaskForm
     template_name = "todos/task_update.html"
-    success_url = '/task'
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
@@ -48,10 +47,21 @@ class TaskUpdateView(UpdateView):
     
     def get_object(self, queryset=None):
         return Task.objects.get(pk=self.kwargs['pk'])
+    
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
 
 class TaskDeleteView(DeleteView):
     model = Task
     template_name = "todos/task_confirm_delete.html"
     success_url = reverse_lazy('tasks:task_list')
+
+
+
+def my_custom_page_not_found_view(request, exception):
+    return render(request, '404.html', {}, status=404)
+
+def my_custom_error_view(request):
+    return render(request, '500.html', {}, status=500)
 
