@@ -44,3 +44,7 @@ li {
 .task-checkbox {
     margin-right: 5px;
 }
+
+input {
+    width: 250px;
+}
