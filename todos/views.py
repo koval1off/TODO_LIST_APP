@@ -2,7 +2,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView
 from django.http import JsonResponse
 from django.views import View
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 
 from .models import Task
 from .forms import UpdateTaskForm
@@ -56,12 +56,4 @@ class TaskDeleteView(DeleteView):
     model = Task
     template_name = "todos/task_confirm_delete.html"
     success_url = reverse_lazy('tasks:task_list')
-
-
-
-def my_custom_page_not_found_view(request, exception):
-    return render(request, '404.html', {}, status=404)
-
-def my_custom_error_view(request):
-    return render(request, '500.html', {}, status=500)
 
