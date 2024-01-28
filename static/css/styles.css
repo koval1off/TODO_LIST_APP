@@ -20,7 +20,7 @@ hr {
 .task-add-btn {
     display: inline-block;
     text-align: center;
-    line-height: 18px;   /* Set the line height to match the button height */
+    line-height: 18px; 
     vertical-align: middle;
 }
 
