@@ -48,3 +48,8 @@ li {
 input {
     width: 250px;
 }
+
+#theme-toggle {
+    border-radius: 10px;
+}
+
