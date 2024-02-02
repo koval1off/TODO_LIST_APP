@@ -1,11 +1,11 @@
-from typing import Any
 from django.views.generic import ListView, UpdateView, DeleteView
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from todos.models import Task
 from todos.mixins import TaskListViewMixin
-from .models import TaskGroup
+from django.db import transaction
+from .models import TaskGroup, Invitation
 from .forms import CreateGroupForm, UpdateGroupForm
 
 
@@ -15,7 +15,7 @@ class GroupListView(ListView):
     context_object_name = "groups"
 
     def get_queryset(self):
-        return TaskGroup.objects.filter(user=self.request.user)
+        return TaskGroup.objects.filter(members=self.request.user)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,8 +26,9 @@ class GroupListView(ListView):
         form = CreateGroupForm(request.POST)
         if form.is_valid():
             new_group = form.save(commit=False)
-            new_group.user = request.user
-            new_group.save()
+            with transaction.atomic():       
+                new_group.save()
+                new_group.members.add(request.user)
         return redirect("groups:group_list")
 
     
@@ -108,3 +109,17 @@ class GroupDeteleView(DeleteView):
         context['group_id'] = group_id
         context['group'] = group
         return context
+    
+
+def create_invitation(request, group_id):
+    group = TaskGroup.objects.get(id=group_id)
+    sender = request.user
+    invitation = Invitation.objects.create(
+        group=group,
+        sender=sender
+    )
+    return invitation
+
+def get_invitation_link(request, invitation):
+    link = request.build_absolute_uri(reverse_lazy("accept_invitation", args=[invitation.token]))
+    return link
