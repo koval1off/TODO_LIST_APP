@@ -1,12 +1,12 @@
 from django.views.generic import ListView, UpdateView, DeleteView
-from django.shortcuts import redirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.db import transaction
 from todos.models import Task
 from todos.mixins import TaskListViewMixin
-from django.db import transaction
 from .models import TaskGroup, Invitation
 from .forms import CreateGroupForm, UpdateGroupForm
+from .utils import create_invitation, get_invitation_link
 
 
 class GroupListView(ListView):
@@ -36,9 +36,9 @@ class GroupTaskListView(TaskListViewMixin, ListView):
     context_object_name = "group_tasks"
 
     def get_queryset(self):
-        user = self.request.user
         group_id = self.kwargs.get("group_id")
-        return Task.objects.filter(group_id=group_id, user=user)
+        group = get_object_or_404(TaskGroup, id=group_id)
+        return Task.objects.filter(group=group)
     
     def post(self, request, *args, **kwargs):
         group_id = self.kwargs.get("group_id")
@@ -90,6 +90,11 @@ class GroupUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         group_id = self.kwargs.get('group_id')
         context['group_id'] = group_id
+
+        invitation = create_invitation(self.request, group_id)
+        invitation_link = get_invitation_link(self.request, invitation)
+        context["invitation_link"] = invitation_link
+
         return context
 
 
@@ -109,17 +114,16 @@ class GroupDeteleView(DeleteView):
         context['group_id'] = group_id
         context['group'] = group
         return context
+
+
+def accept_invitation(request, token):
+    if request.user.is_authenticated:
+        invitation = get_object_or_404(Invitation, token=token, accepted=True)
+        invitation.group.members.add(request.user)
+        invitation.accepted = True
+        invitation.save()
+        return redirect("groups:group_task_list", group_id=invitation.group.id)
+    else:
+        request.session["invitation_token"] = str(token)
+        return redirect("account_login")
     
-
-def create_invitation(request, group_id):
-    group = TaskGroup.objects.get(id=group_id)
-    sender = request.user
-    invitation = Invitation.objects.create(
-        group=group,
-        sender=sender
-    )
-    return invitation
-
-def get_invitation_link(request, invitation):
-    link = request.build_absolute_uri(reverse_lazy("accept_invitation", args=[invitation.token]))
-    return link

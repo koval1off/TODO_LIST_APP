@@ -18,6 +18,11 @@
                 <i class="bi bi-trash"></i>
             </a>
         </form>
-    
+        
+        {% if invitation_link %}
+            <div>
+                <input type="text" value="{{ invitation_link }}" readonly>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
