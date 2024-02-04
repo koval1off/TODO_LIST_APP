@@ -1,5 +1,6 @@
 {% extends "_base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
     <div class="d-flex flex-column">
@@ -21,8 +22,12 @@
         
         {% if invitation_link %}
             <div>
-                <input type="text" value="{{ invitation_link }}" readonly>
+                <h5>You can share this group using the link:</h5>
+                <input type="text" value="{{ invitation_link }}" id="invitationLink" readonly>
+                <button onclick="copyLink()">Copy</button>
             </div>
         {% endif %}
     </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
 {% endblock %}

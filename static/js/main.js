@@ -1,3 +1,4 @@
+// task completion funnction
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.task-checkbox').forEach(function(checkbox) {
         checkbox.addEventListener('click', function() {
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// theme changing function
 const themeToggleBtn = document.getElementById('theme-toggle');
         const currentTheme = localStorage.getItem('theme') || 'light';
 
@@ -53,3 +55,17 @@ const themeToggleBtn = document.getElementById('theme-toggle');
             localStorage.setItem('theme', newTheme);
             
         });
+
+// copy group invitation link function
+function copyLink() {
+    var copyText = document.getElementById("invitationLink");
+    var tempTextarea = document.createElement("textarea");
+
+    tempTextarea.value = copyText.value;
+    document.body.appendChild(tempTextarea);
+    tempTextarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempTextarea);
+    
+    alert("Invitation link copied to clipboard.");
+}
