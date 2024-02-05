@@ -6,12 +6,14 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
   <h3>Group List</h3>
+  <div class="group_list_container" style="overflow-y: auto; padding-bottom: 100px;">
     <ul>
       {% for group in groups %}
         <li><a class="btn btn-light" href="{% url 'groups:group_task_list' group.id %}" style="width: 250px;">{{ group.name }}</a></li>
       {% endfor %}
     </ul>
-
+  </div>
+  
   <div class="group-creation-form">
     <form method="post" action="{% url 'groups:group_list' %}">{% csrf_token %}
       <div class="d-flex justify-content-center align-items-center">

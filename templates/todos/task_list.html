@@ -15,13 +15,14 @@
 
         <div class="d-flex justify-content-center align-items-center">
             <h3 class="d-inline m-1">{{ group.name }}</h3>
-            <a href="{% url 'groups:group_update' group_id %}"><i class="bi bi-pencil-square h3" style="color: black;"></i></a>
+            <a href="{% url 'groups:group_update' group_id %}" class="link-body-emphasis"><i class="bi bi-pencil-square h3"></i></a>
         </div>
 
     {% else %}
         <h3>Tasks</h3>        
     {% endif %}
 
+    <div class="task_list_container" style="overflow-y: auto; padding-bottom: 100px;">
     <ul>
         {% for task in incompleted_tasks %}
             <li>
@@ -41,7 +42,7 @@
             </li>
         {% endfor %}
     </ul>
-    
+    </div>
     <div class="task-creation-form">
     {% if group_id %}
         <form method="post" action="{% url 'groups:group_task_list' group_id %}">
@@ -55,7 +56,6 @@
         </div>
     </form>
     </div>
-
     <script src="{% static 'js/main.js' %}"></script>
 
 {% endblock content %}

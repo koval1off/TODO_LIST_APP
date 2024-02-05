@@ -21,10 +21,11 @@
         </form>
         
         {% if invitation_link %}
-            <div>
+            <div style="margin-top: 30px;">
                 <h5>You can share this group using the link:</h5>
+                <button class="btn btn-secondary" onclick="copyLink()">Copy</button>
                 <input type="text" value="{{ invitation_link }}" id="invitationLink" readonly>
-                <button onclick="copyLink()">Copy</button>
+                
             </div>
         {% endif %}
     </div>

@@ -3,5 +3,13 @@
 {% block title %}TODO APP{% endblock title %}
 
 {% block content %}
-    <h1>This is Homepage</h1>
+    <h1>Welcome to TODO APP!</h1>
+
+    {% if user.is_authenticated %}
+        <div>
+            <p>Hello dear {{ user.username }}! We hope this app will help you to organize your life better!</p>
+        </div>
+    {% else %}
+        <h5>Please Login or SignUp to see more features!</h5>
+    {% endif %}
 {% endblock content %}

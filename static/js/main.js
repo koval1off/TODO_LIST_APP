@@ -45,16 +45,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // theme changing function
 const themeToggleBtn = document.getElementById('theme-toggle');
-        const currentTheme = localStorage.getItem('theme') || 'light';
+const currentTheme = localStorage.getItem('theme') || 'light';
 
-        document.documentElement.setAttribute('data-bs-theme', currentTheme);
+document.documentElement.setAttribute('data-bs-theme', currentTheme);
 
-        themeToggleBtn.addEventListener('click', () => {
-            const newTheme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-bs-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-        });
+function updateButtonIcon(theme) {
+    const moonIcon = '<i class="bi bi-moon-stars-fill"></i>';
+    const sunIcon = '<i class="bi bi-sun-fill">';
+
+    themeToggleBtn.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
+}
+
+updateButtonIcon(currentTheme);
+
+themeToggleBtn.addEventListener('click', () => {
+    const newTheme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    updateButtonIcon(newTheme);
+});
 
 // copy group invitation link function
 function copyLink() {
@@ -66,6 +76,6 @@ function copyLink() {
     tempTextarea.select();
     document.execCommand("copy");
     document.body.removeChild(tempTextarea);
-    
+
     alert("Invitation link copied to clipboard.");
 }

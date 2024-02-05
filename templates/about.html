@@ -3,5 +3,22 @@
 {% block title %}TODO APP{% endblock title %}
 
 {% block content %}
-    <h1>This is Aboutpage</h1>
+    <h1>About page</h1>
+    <div style="width: 500px;">
+        <p>Hello, I'm Paul. I'm young student and I have a very active lifestyle) 
+        So for me organizing and planning are very important things. 
+        Currently, I'm learning Django and this is my project, that I hope will help other people too) 
+        I'm passionate about codding and eager to expand my skills in web development.</p>
+        
+        {% if user.is_authenticated %}
+            <p>Feel free to connect with me on social media:</p>
+            <div class="d-flex justify-content-around">
+                <a class="link-body-emphasis" href="https://www.instagram.com/koval1off/" target="_blank"><i class="bi bi-instagram"></i></a></h3>
+                <a class="link-body-emphasis" href="https://t.me/koval1off" target="_blank"><i class="bi bi-telegram"></i></a>
+                <a class="link-body-emphasis" href="https://www.linkedin.com/in/paul-kovaliov-060805237/" target="_blank"><i class="bi bi-linkedin"></i></a>
+                <a class="link-body-emphasis" href="https://twitter.com/Paul77361437" target="_blank"><i class="bi bi-twitter-x"></i></a>
+                <a class="link-body-emphasis" href="mailto:kovaliov043@gmail.com" target="_blank"><i class="bi bi-envelope-fill"></i></a>
+            </div>
+        {% endif %}
+    </div>
 {% endblock content %}
