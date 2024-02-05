@@ -18,3 +18,5 @@ class UpdateGroupForm(forms.ModelForm):
     class Meta:
         model = TaskGroup
         fields = ['name']
+
+        

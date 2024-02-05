@@ -1,6 +1,6 @@
+import uuid
 from allauth.account.signals import user_logged_in, user_signed_up
 from django.dispatch import receiver
-import uuid
 
 from .models import Invitation
 

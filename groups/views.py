@@ -1,7 +1,9 @@
 from django.views.generic import ListView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.db import transaction
+
 from todos.models import Task
 from todos.mixins import TaskListViewMixin
 from .models import TaskGroup, Invitation
@@ -9,7 +11,7 @@ from .forms import CreateGroupForm, UpdateGroupForm
 from .utils import create_invitation, get_invitation_link
 
 
-class GroupListView(ListView):
+class GroupListView(LoginRequiredMixin, ListView):
     model = TaskGroup
     template_name = "groups/group_list.html"
     context_object_name = "groups"
@@ -69,7 +71,7 @@ class GroupTaskListView(TaskListViewMixin, ListView):
         return reverse("groups:group_task_list", args=[group_id])
     
 
-class GroupUpdateView(UpdateView):
+class GroupUpdateView(LoginRequiredMixin, UpdateView):
     model = TaskGroup
     template_name = "groups/group_update.html"
     form_class = UpdateGroupForm
@@ -98,7 +100,7 @@ class GroupUpdateView(UpdateView):
         return context
 
 
-class GroupDeteleView(DeleteView):
+class GroupDeteleView(LoginRequiredMixin, DeleteView):
     model = TaskGroup
     template_name = "groups/group_confirm_delete.html"
     success_url = reverse_lazy("groups:group_list")

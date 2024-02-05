@@ -1,8 +1,9 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+
 from groups.models import TaskGroup
-import uuid
 
 
 class Task(models.Model):

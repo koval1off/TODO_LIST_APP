@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import get_object_or_404
@@ -24,7 +25,7 @@ class ToggleTaskCompletionView(View):
         return JsonResponse({'success': True})
 
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = "todos/task_detail.html"
     context_object_name = "task"
@@ -33,7 +34,7 @@ class TaskDetailView(DetailView):
         return Task.objects.filter(user=self.request.user)
 
 
-class TaskUpdateView(UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = UpdateTaskForm
     template_name = "todos/task_update.html"
@@ -52,7 +53,7 @@ class TaskUpdateView(UpdateView):
         return self.object.get_absolute_url()
 
 
-class TaskDeleteView(DeleteView):
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "todos/task_confirm_delete.html"
     success_url = reverse_lazy('tasks:task_list')

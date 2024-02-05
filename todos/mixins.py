@@ -1,17 +1,18 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
-from .models import Task, TaskGroup
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+
+from .models import Task
 from .forms import CreateTaskForm
 
 
-class TaskListViewMixin:
+class TaskListViewMixin(LoginRequiredMixin):
     model = Task
     template_name = "todos/task_list.html"
     form_class = CreateTaskForm
 
     def get_queryset(self):
         user = self.request.user
-        return Task.objects.filter(user=user)
+        return Task.objects.filter(user=user).prefetch_related("user")
     
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -35,3 +36,4 @@ class TaskListViewMixin:
     
     def get_redirect_url(self):
         raise NotImplementedError("Subclasses must impletement this method.")
+    
