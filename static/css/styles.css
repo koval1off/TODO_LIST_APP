@@ -11,10 +11,7 @@ h3 {
 }
 
 hr {
-    color: black;
-    width: 7%;
-    border: none;
-    border-top: 5px dotted;
+    width: 100%;
 }
 
 .task-add-btn {
@@ -32,6 +29,12 @@ hr {
 .task-creation-form, .group-creation-form {
     position: fixed;
     bottom: 50px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
 }
 
 li {
