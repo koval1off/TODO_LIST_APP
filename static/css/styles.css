@@ -56,3 +56,8 @@ input {
     border-radius: 10px;
 }
 
+.text-container {
+    width: auto;
+    margin: 20px;
+    text-align: center;
+}
