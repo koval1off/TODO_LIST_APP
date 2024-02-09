@@ -77,9 +77,6 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UpdateGroupForm
     success_url = "/group"
 
-    def get_queryset(self):
-        return TaskGroup.objects.filter(user=self.request.user)
-
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
@@ -120,9 +117,8 @@ class GroupDeteleView(LoginRequiredMixin, DeleteView):
 
 def accept_invitation(request, token):
     if request.user.is_authenticated:
-        invitation = get_object_or_404(Invitation, token=token, accepted=True)
+        invitation = get_object_or_404(Invitation, token=token)
         invitation.group.members.add(request.user)
-        invitation.accepted = True
         invitation.save()
         return redirect("groups:group_task_list", group_id=invitation.group.id)
     else:

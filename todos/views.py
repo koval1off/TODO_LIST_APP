@@ -19,7 +19,7 @@ class TaskListView(TaskListViewMixin, ListView):
 
 class ToggleTaskCompletionView(View):
     def post(self, request, task_id):
-        task = get_object_or_404(Task, id=task_id, user=request.user)
+        task = get_object_or_404(Task, id=task_id)
         task.completed = not task.completed
         task.save()
         return JsonResponse({'success': True})
@@ -30,17 +30,11 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "todos/task_detail.html"
     context_object_name = "task"
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
-
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = UpdateTaskForm
     template_name = "todos/task_update.html"
-
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         form.save()
