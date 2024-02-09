@@ -12,7 +12,7 @@ class TaskListViewMixin(LoginRequiredMixin):
 
     def get_queryset(self):
         user = self.request.user
-        return Task.objects.filter(user=user).prefetch_related("user")
+        return Task.objects.filter(user=user).order_by("-created_at").prefetch_related("user")
     
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
